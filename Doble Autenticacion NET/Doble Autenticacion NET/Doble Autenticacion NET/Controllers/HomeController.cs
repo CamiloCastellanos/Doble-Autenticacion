@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using Doble_Autenticacion_NET.Models;
 using System.Web.Mvc;
 
 namespace Doble_Autenticacion_NET.Controllers

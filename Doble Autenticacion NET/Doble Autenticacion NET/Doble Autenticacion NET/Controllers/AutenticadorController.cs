@@ -1,34 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using Doble_Autenticacion_NET.Models;
+using Google.Authenticator;
+using System;
 using System.Web.Mvc;
 
 namespace Doble_Autenticacion_NET.Controllers
 {
     public class AutenticadorController : Controller
     {
-        // GET: Autenticador
-        public ActionResult Index()
-        {
-            return View();
-        }
-
-        // GET: Autenticador/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: Autenticador/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
+        public string nombreAplicacion = "Autenticacion Net";
+        public string correoUsuario = "Prueba@gmail.com";
+        public string claveAutenticador = "Prueba-Autenticacion-Net";
 
         // POST: Autenticador/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Autenticar()
         {
             try
             {
@@ -42,48 +33,56 @@ namespace Doble_Autenticacion_NET.Controllers
             }
         }
 
-        // GET: Autenticador/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: Autenticador/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult GeneradorToken()
         {
             try
             {
-                // TODO: Add update logic here
+                TwoFactorAuthenticator autenticador = new TwoFactorAuthenticator();
 
-                return RedirectToAction("Index");
+                string nombreAplicacion = "Autenticacion Net";
+                string correoUsuario = "Prueba@gmail.com";
+                string clave = "Prueba-Autenticacion-Net";
+
+                SetupCode setupCode = autenticador.GenerateSetupCode(nombreAplicacion, correoUsuario, clave, false);
+
+                ViewBag.ImagenQR = setupCode.QrCodeSetupImageUrl;
+                ViewBag.CodigoManual = setupCode.ManualEntryKey;
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
             }
-        }
-
-        // GET: Autenticador/Delete/5
-        public ActionResult Delete(int id)
-        {
             return View();
         }
 
-        // POST: Autenticador/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult GeneradorToken(Autenticacion atenticacion)
         {
             try
             {
-                // TODO: Add delete logic here
+                TwoFactorAuthenticator autenticador = new TwoFactorAuthenticator();
 
-                return RedirectToAction("Index");
+                SetupCode setupCode = autenticador.GenerateSetupCode(nombreAplicacion, correoUsuario, claveAutenticador, true);
+
+                ViewBag.ImagenQR = setupCode.QrCodeSetupImageUrl;
+                ViewBag.CofigoManual = setupCode.ManualEntryKey;
+
             }
-            catch
-            {
-                return View();
-            }
+            catch { }
+            return View();
         }
+
+        /// <summary>
+        /// Valida la clave ingresada
+        /// </summary>
+        /// <param name="clave"></param>
+        [HttpPost]
+        //[ValidateAntiForgeryToken]
+        public void ValidadorPing(string clave)
+        {
+            TwoFactorAuthenticator autenticador = new TwoFactorAuthenticator();
+
+            bool pingCOrrecto = autenticador.ValidateTwoFactorPIN(claveAutenticador,clave);
+        }
+
     }
 }

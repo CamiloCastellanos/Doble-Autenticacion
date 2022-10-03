@@ -3,5 +3,24 @@
     ViewBag.Title = "GeneradorToken";
 }
 
-<h2>GeneradorToken</h2>
+<h2>Codigo Autenticacion</h2>
 
+<h1>Paso 1: Registra tu dispositivo</h1>
+<h2>Activar Autenticador de Google</h2>
+<h3>Usa la cámara de tu celular</h3>
+<img src="@ViewBag.ImagenQR" alt="QR" />
+
+<h3>O Utiliza este código</h3>
+@ViewBag.CodigoManual
+
+<h1>Paso 2: Coloca la clave que indica Google Authenticator en estos momentos</h1>
+
+@using (Html.BeginForm("ValidadorPing", "Autenticador", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <span>Clave:</span>
+    <input type="text" id="Clave" name="clave" />
+
+    <input type="submit" value="Listo" class="btn btn-success" />
+    @Html.ActionLink("Cancelar", "Index", null, new { @class = "btn btn-danger" });
+}

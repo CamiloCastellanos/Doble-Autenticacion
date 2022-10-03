@@ -1,26 +1,32 @@
-﻿@{
-    ViewBag.Title = "Home Page";
+﻿@model Doble_Autenticacion_NET.Models.LoginUsuario
+
+@{
+    ViewBag.Title = "Login";
 }
 
-<div class="wrapper">
-    <div class="logo">
-        <img src="https://www.freepnglogos.com/uploads/twitter-logo-png/twitter-bird-symbols-png-logo-0.png" alt="">
-    </div>
-    <div class="text-center mt-4 name">
-        Twitter
-    </div>
-    <form class="p-3 mt-3">
-        <div class="form-field d-flex align-items-center">
-            <span class="far fa-user"></span>
-            <input type="text" name="userName" id="userName" placeholder="Username">
+<div class="container-fluid col-lg">
+    <div class="form-bg center-block">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-offset-4 col-md-4 col-sm-offset-3 col-sm-6">
+                    <div class="form-container">
+                        @using (Html.BeginForm("Login", "Autenticador", FormMethod.Post, new { @class= "form-horizontal" }))
+                        {
+                            <h3 class="title">Login </h3>
+                            <div class="form-group">
+                                <span class="input-icon"><i class="fa fa-user"></i></span>
+                                @Html.TextBoxFor(model => model.usuario, new { @class = "form-control", @placeholder = "Usuario", @type = "email" })
+                            </div>
+                            <div class="form-group">
+                                <span class="input-icon"><i class="fa fa-lock"></i></span>
+                                @Html.PasswordFor(model => model.contrasena, new { @class="form-control", @placeholder = "Contraseña" })
+                            </div>
+                            <button class=" center-block btn signin">Log in</button>
+                        }
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="form-field d-flex align-items-center">
-            <span class="fas fa-key"></span>
-            <input type="password" name="password" id="pwd" placeholder="Password">
-        </div>
-        <button class="btn mt-3">Login</button>
-    </form>
-    <div class="text-center fs-6">
-        <a href="#">Forget password?</a> or <a href="#">Sign up</a>
     </div>
 </div>
+@Styles.Render("~/Content/Login")
