@@ -28,6 +28,9 @@ namespace Doble_Autenticacion_NET
 
             bundles.Add(new StyleBundle("~/Content/Login").Include(
                     "~/Content/Login/Login.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/Autenticacion").Include(
+                       "~/Scripts/WebApp/Autenticacion/ConfiguracionAutenticacion.js"));
         }
     }
 }

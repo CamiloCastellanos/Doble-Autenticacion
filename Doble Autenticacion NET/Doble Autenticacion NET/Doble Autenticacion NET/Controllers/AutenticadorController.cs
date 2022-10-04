@@ -18,21 +18,6 @@ namespace Doble_Autenticacion_NET.Controllers
             return View();
         }
 
-        [HttpPost]
-        public ActionResult Autenticar()
-        {
-            try
-            {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
         public ActionResult GeneradorToken()
         {
             try
@@ -54,35 +39,19 @@ namespace Doble_Autenticacion_NET.Controllers
             return View();
         }
 
-        [HttpPost]
-        public ActionResult GeneradorToken(Autenticacion atenticacion)
-        {
-            try
-            {
-                TwoFactorAuthenticator autenticador = new TwoFactorAuthenticator();
-
-                SetupCode setupCode = autenticador.GenerateSetupCode(nombreAplicacion, correoUsuario, claveAutenticador, true);
-
-                ViewBag.ImagenQR = setupCode.QrCodeSetupImageUrl;
-                ViewBag.CofigoManual = setupCode.ManualEntryKey;
-
-            }
-            catch { }
-            return View();
-        }
-
         /// <summary>
         /// Valida la clave ingresada
         /// </summary>
         /// <param name="clave"></param>
         [HttpPost]
         //[ValidateAntiForgeryToken]
-        public void ValidadorPing(string clave)
+        public JsonResult ValidadorPing(string clave)
         {
             TwoFactorAuthenticator autenticador = new TwoFactorAuthenticator();
 
             bool pingCOrrecto = autenticador.ValidateTwoFactorPIN(claveAutenticador,clave);
-        }
 
+            return Json(pingCOrrecto, JsonRequestBehavior.AllowGet);
+        }
     }
 }

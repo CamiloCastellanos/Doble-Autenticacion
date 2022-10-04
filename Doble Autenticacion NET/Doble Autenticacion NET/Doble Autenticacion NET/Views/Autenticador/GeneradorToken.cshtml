@@ -21,6 +21,8 @@
     <span>Clave:</span>
     <input type="text" id="Clave" name="clave" />
 
-    <input type="submit" value="Listo" class="btn btn-success" />
+    <input type="button" value="Listo" class="btn btn-success" onclick="ValidarToken()"/>
     @Html.ActionLink("Cancelar", "Index", null, new { @class = "btn btn-danger" });
 }
+
+@Scripts.Render("~/bundles/Autenticacion")
